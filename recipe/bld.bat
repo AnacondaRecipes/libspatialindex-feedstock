@@ -1,8 +1,7 @@
-cmake -G "NMake Makefiles" ^
+cmake -G "%CMAKE_GENERATOR%" ^
       -D CMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
-      -D CMAKE_BUILD_TYPE=Release ^
       .
 if errorlevel 1 exit 1
 
-nmake install
+cmake --build . --config Release --target install
 if errorlevel 1 exit 1
