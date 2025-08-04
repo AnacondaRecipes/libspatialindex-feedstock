@@ -1,12 +1,13 @@
-{% set version = "1.9.3" %}
+{% set name = "libspatialindex" %}
+{% set version = "2.1.0" %}
 
 package:
-  name: libspatialindex
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://github.com/libspatialindex/libspatialindex/archive/{{ version }}.tar.gz
-  sha256: 7b44340a3edc55c11abfc453bb60f148b29f569cef9e1148583e76132e9c7379
+  url: https://github.com/{{ name }}/{{ name }}/archive/{{ version }}.tar.gz
+  sha256: a04513cea04dd20ab2c9d153c14cc45692805ee496b30619103f7929f6fb81bf
 
 build:
   number: 0
@@ -17,9 +18,10 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib('c') }}
     - {{ compiler('cxx') }}
-    - make #[not win]
     - cmake
+    - make # [unix]
     - ninja  # [win]
 
 test:
@@ -27,11 +29,24 @@ test:
     - test -f ${PREFIX}/lib/libspatialindex_c${SHLIB_EXT}  # [not win]
 
 about:
-  home: http://libspatialindex.github.io
+  home: https://libspatialindex.github.io
   license: MIT
+  license_family: MIT
   license_file: COPYING
-  summary: 'Extensible framework for robust spatial indexing'
+  summary: Extensible framework for robust spatial indexing
+  description: |
+    The purpose of this library is to provide:
+      1. An extensible framework that will support robust spatial indexing methods.
+      2. Support for sophisticated spatial queries. Range, point location, nearest neighbor and k-nearest neighbor as well as parametric queries (defined by spatial constraints) should be easy to deploy and run.
+      3. Easy to use interfaces for inserting, deleting and updating information.
+      4. Wide variety of customization capabilities. Basic index and storage characteristics like the page size, node capacity, minimum fan-out, splitting algorithm, etc. should be easy to customize.
+      5. Index persistence. Internal memory and external memory structures should be supported. Clustered and non-clustered indices should be easy to be persisted.
+  doc_url: https://libspatialindex.org
+  dev_url: https://github.com/conda-forge/libspatialindex-feedstock
 
 extra:
   recipe-maintainers:
     - ocefpaf
+  skip-lints:
+    # Tests executed in the build script.
+    - missing_tests
